@@ -6,7 +6,7 @@ A set of methods to assist with monitoring DataOps pipelines.
 Initial version is to record and alert on significant changes to the number of records in a dataset.
 
 ~~~
-from dataops import DOML
+from doml import DOML
 
 # create the DOML object, load the schema and filename
 doml = DOML(["records", "bytes"], "sink")

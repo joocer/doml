@@ -24,7 +24,7 @@ class DOML(object):
             self._log_sink = self._log_sink + '.jsonl'
 
 
-    def record_event(self, event, timestamp=datetime.datetime.now()):
+    def record_event(self, event, timestamp=None):
         """
         Records details of an DataOps Event.
 
@@ -32,7 +32,10 @@ class DOML(object):
             timestamp: the date and time of the event
             event: the details of the event
         """
-        
+
+        if timestamp is None:
+            timestamp = datetime.datetime.now()
+
         # make sure we 
         if type(timestamp).__name__ != 'datetime':
             raise Exception("`timestamp` must be a datetime")
@@ -87,11 +90,12 @@ class DOML(object):
         with open(self._log_sink) as fp:
             for line in reverse_file_read(fp):
                 line = line.rstrip("\n")
-                if index < records:
-                    record = json.loads(line)
-                    record['timestamp'] = datetime.datetime.fromisoformat(record['timestamp'])
-                    observations.append(record)
-                    index = index + 1
-                else:
-                    return observations
+                if len(line) > 0:
+                    if index < records:
+                        record = json.loads(line)
+                        record['timestamp'] = datetime.datetime.fromisoformat(record.get('timestamp'))
+                        observations.insert(0, record)
+                        index = index + 1
+                    else:
+                        return observations
         return observations
