@@ -14,7 +14,7 @@ doml = DOML(["records", "bytes"], "sink")
 # record event in the logs
 doml.record_event({ "records": 10, "bytes": 1000 })
 
-# test the 'records' valye in the logs, using the last 10 values
-print(doml.test_log('records', 10))
+# test the 'records' value in the logs
+print(doml.test_log('records'))
 ~~~
 
